@@ -147,6 +147,11 @@ func dumpMakeVars(ctx Context, config Config, goals, vars []string, write_soong_
 var BannerVars = []string{
 	"PLATFORM_VERSION_CODENAME",
 	"PLATFORM_VERSION",
+	"EPIC_BUILD_TYPE",
+	"EPIC_CODENAME",
+	"EPIC_MAINTAINER",
+	"EPIC_VERSION",
+	"EPIC_BUILD_DATE",
 	"PRODUCT_INCLUDE_TAGS",
 	"PRODUCT_SOURCE_ROOT_DIRS",
 	"TARGET_PRODUCT",
