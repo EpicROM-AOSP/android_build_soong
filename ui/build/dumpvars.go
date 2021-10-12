@@ -168,11 +168,11 @@ var BannerVars = []string{
 	"SOONG_SDK_SNAPSHOT_USE_SOURCE_CONFIG_VAR",
 	"SOONG_SDK_SNAPSHOT_VERSION",
 	"WITH_SU",
-	"WITH_GMS",
 	"PRODUCT_IS_ATV",
 	"PRODUCT_IS_AUTO",
 	"GMS_MAKEFILE",
 	"MAINLINE_MODULES_MAKEFILE",
+	"WITH_GAPPS",
 }
 
 func Banner(make_vars map[string]string) string {
