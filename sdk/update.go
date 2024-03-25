@@ -455,11 +455,14 @@ be unnecessary as every module in the sdk already has its own licenses property.
 
 	for _, module := range builder.prebuiltOrder {
 		// Prune any empty property sets.
-		module = module.transform(pruneEmptySetTransformer{})
+		module = transformModule(module, pruneEmptySetTransformer{})
 
 		// Transform the module module to make it suitable for use in the snapshot.
-		module.transform(snapshotTransformer)
-		bpFile.AddModule(module)
+		module = transformModule(module, snapshotTransformer)
+		module = transformModule(module, emptyClasspathContentsTransformation{})
+		if module != nil {
+			bpFile.AddModule(module)
+		}
 	}
 
 	// generate Android.bp
@@ -835,9 +838,11 @@ type snapshotTransformation struct {
 }
 
 func (t snapshotTransformation) transformModule(module *bpModule) *bpModule {
-	// If the module is an internal member then use a unique name for it.
-	name := module.Name()
-	module.setProperty("name", t.builder.snapshotSdkMemberName(name, true))
+	if module != nil {
+		// If the module is an internal member then use a unique name for it.
+		name := module.Name()
+		module.setProperty("name", t.builder.snapshotSdkMemberName(name, true))
+	}
 	return module
 }
 
@@ -848,6 +853,25 @@ func (t snapshotTransformation) transformProperty(_ string, value interface{}, t
 	} else {
 		return value, tag
 	}
+}
+
+type emptyClasspathContentsTransformation struct {
+	identityTransformation
+}
+
+func (t emptyClasspathContentsTransformation) transformModule(module *bpModule) *bpModule {
+	classpathModuleTypes := []string{
+		"prebuilt_bootclasspath_fragment",
+		"prebuilt_systemserverclasspath_fragment",
+	}
+	if module != nil && android.InList(module.moduleType, classpathModuleTypes) {
+		if contents, ok := module.bpPropertySet.properties["contents"].([]string); ok {
+			if len(contents) == 0 {
+				return nil
+			}
+		}
+	}
+	return module
 }
 
 type pruneEmptySetTransformer struct {
@@ -1961,6 +1985,10 @@ type memberContext struct {
 
 	// The set of traits required of this member.
 	requiredTraits android.SdkMemberTraitSet
+}
+
+func (m *memberContext) ModuleErrorf(fmt string, args ...interface{}) {
+	m.sdkMemberContext.ModuleErrorf(fmt, args...)
 }
 
 func (m *memberContext) SdkModuleContext() android.ModuleContext {
