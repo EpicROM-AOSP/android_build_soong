@@ -258,3 +258,24 @@ com\.google\.i18n\.phonenumbers
 # Packages used for Android in Chrome OS
 org\.chromium\.arc
 org\.chromium\.arc\..*
+
+# Lineage adds
+lineageos\.platform
+org\.lineageos\.platform\.internal
+
+# NV adds
+com\.nvidia
+com\.nvidia\..*
+
+# QC adds
+com.qualcomm.qti
+com.quicinc.tcmiface
+com.qualcomm.wfd
+com.qualcomm.wfd.service
+org.codeaurora.ims
+org.codeaurora.internal
+qcom.fmradio
+
+###################################################
+# IFAA Manager used for Alipay and/or WeChat payment
+org\.ifaa\.android\.manager.*
