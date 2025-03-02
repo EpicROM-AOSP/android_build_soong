@@ -145,12 +145,14 @@ func dumpMakeVars(ctx Context, config Config, goals, vars []string, write_soong_
 
 // Variables to print out in the top banner
 var BannerVars = []string{
-	"PLATFORM_VERSION_CODENAME",
-	"PLATFORM_VERSION",
-	"LINEAGE_VERSION",
+	"EPİC_BUILD_INFO",
+	"EPİC_MOD_VERSION",
+	"EPİC_ANDROID",
+	"EPİC_MAINTAINER",
+	"EPİC_DEVICE",
 	"PRODUCT_SOURCE_ROOT_DIRS",
-	"TARGET_PRODUCT",
 	"TARGET_BUILD_VARIANT",
+	"BUILD_ID",
 	"TARGET_BUILD_APPS",
 	"TARGET_BUILD_UNBUNDLED",
 	"TARGET_ARCH",
